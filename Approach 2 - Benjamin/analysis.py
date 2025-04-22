@@ -1,9 +1,18 @@
+__author__ = "Benjamin Boonen"
+
 import matplotlib
 import os
 from datetime import datetime
 import csv
 import pandas as pd
 import numpy as np
+
+# Dit is slechts een test, een proof of concept.
+# Het document in Approach 1 is het document dat
+# uiteindelijk gebruikt is voor het berekenen
+# van de eigenlijke resultaten. Dit is een 
+# Idea-sketch
+# - Benjamin Boonen
 
 data_folder = "./output"
 def seconds_since_midnight(t):
