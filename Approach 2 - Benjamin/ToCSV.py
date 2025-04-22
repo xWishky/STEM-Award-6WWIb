@@ -77,8 +77,7 @@ def process_all_files(folder_path):
             except Exception as e:
                 print(f"Error processing {file_name}: {e}")
 
-# Example usage
 if __name__ == "__main__":
-    folder_path = "./data"  # Update this to the correct folder path
+    folder_path = "./data"
     process_all_files(folder_path)
     print("All files processed successfully!")
