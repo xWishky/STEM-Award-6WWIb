@@ -9,6 +9,7 @@ names = glob.glob("output/*")
 name = names[0]
 print(name)
 
+scale=True
 # Retrieve all available days in the data of the selected person
 # We assume here that every folder has the same structure
 days = glob.glob(f"{name}/*")
@@ -28,7 +29,6 @@ hour_index = 0
 fig, ax = plt.subplots()
 plt.subplots_adjust(bottom=0.3)
 
-
 def update_plot():
     """Update the plot with the new heart rate data from the selected CSV file"""
     global current_day, data_hours
@@ -46,6 +46,12 @@ def update_plot():
     # Set labels for x- and y-axis
     ax.set_xlabel("Tijd (in seconden)")
     ax.set_ylabel("Hartslag (in bpm)")
+    if scale:
+        print("True scale: enabled")
+        ax.set_ylim(0, 140)
+    else:
+        print("True scale: disabled")
+        
 
     ax.grid(True) # Show a grid
 
@@ -75,6 +81,14 @@ def next_hour(event):
     hour_index = (hour_index + 1) % len(data_hours)
 
     update_plot() # Update the plot
+def prev_hour(event):
+    """Switch over to the next available hour in the chosen day and update the plot"""
+    global hour_index
+
+    # Switch to the next hour
+    hour_index = (hour_index - 1) % len(data_hours)
+
+    update_plot() # Update the plot
 
 def next_person(event):
     """Switch over to the next available person and update the plot"""
@@ -99,10 +113,13 @@ def next_person(event):
 
 
 # Create and add the button to switch hours
+ax_prev_hour = plt.axes([0.54, 0.05, 0.2, 0.075])
+btn_prev_hour = Button(ax_prev_hour, "Vorig lesuur")
+btn_prev_hour.on_clicked(prev_hour)
+
 ax_next_hour = plt.axes([0.75, 0.05, 0.2, 0.075])
 btn_next_hour = Button(ax_next_hour, "Volgend lesuur")
 btn_next_hour.on_clicked(next_hour)
-
 # Create and add the button to switch days
 ax_next_day = plt.axes([0.05, 0.05, 0.2, 0.075])
 btn_next_day = Button(ax_next_day, "Volgende dag")
