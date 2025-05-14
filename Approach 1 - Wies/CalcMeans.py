@@ -1,3 +1,5 @@
+__author__ = "Wies Van Lommel"
+
 import glob
 import os
 import pandas as pd
