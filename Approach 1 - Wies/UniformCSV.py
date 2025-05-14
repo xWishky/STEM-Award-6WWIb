@@ -91,7 +91,7 @@ def process_csv(csv_files, name, day_name, day_folder):
                 if start <= time <= end:
                     heart_rate = current_csv["Date"][2:].iloc[i] # Extract the heart rate from the CSV file
                     if pd.isna(heart_rate): # If the heart rate is NaN, add "No data" to the list
-                        data[hour].append((time, "No data", to_hms(time)))
+                        data[hour].append((time, None, to_hms(time)))
                     else: # Add the heart rate and the time at which it was recorded to the correct sub-list
                         data[hour].append( (time, heart_rate, to_hms(time)) )
 
@@ -105,7 +105,7 @@ def process_csv(csv_files, name, day_name, day_folder):
             lesson_time = start + i # Get the time since the start of the lesson
 
             if not any(t[0] == lesson_time for t in data[hour]): # Fill missing data with "No data"
-                data[hour].insert(i, (lesson_time, "No data", to_hms(lesson_time)) )
+                data[hour].insert(i, (lesson_time, None, to_hms(lesson_time)) )
 
         # Write everything to a CSV file
         df = pd.DataFrame(data[hour], columns=["Tijd", "Hartslag", "HMS"])
@@ -117,7 +117,7 @@ for name in names:
 
     data_person_days = glob.glob(f"Personen-Data/Data-Hartslag-{name}/*") # Get all folders inside the folder containing the persons data
 
-    person_folder = f"Data/Data-Hartslag-Test-{name}" # Path for the folder in which we will store the output
+    person_folder = f"Data-(NaN)/Data-Hartslag-Test-{name}" # Path for the folder in which we will store the output
     os.makedirs(person_folder, exist_ok=True) # Create the directory if it doesn't already exist
 
     # Loop over each day in which we collected data for the specific person

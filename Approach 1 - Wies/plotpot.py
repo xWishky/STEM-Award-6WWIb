@@ -5,7 +5,7 @@ from matplotlib.widgets import Button
 import glob
 
 # List of names to iterate through
-names = glob.glob("Personen-Data/*")
+names = glob.glob("Data-(NaN)/Data-Hartslag-Test-*")
 name = names[0]
 print(name)
 
@@ -19,10 +19,13 @@ print(amt_days)
 
 day_index = 0
 current_day = os.path.basename(days[day_index])
+print(current_day)
 
 # Get all available CSV files for the selected day
-data_hours = glob.glob(f"{name}/{current_day}/*.csv")
+
+data_hours = glob.glob(f"{name}/{current_day}/*")
 hour_index = 0
+print(data_hours)
 
 # Initiate the matplotlib figure and axis, add some room on the bottom to create space for the buttons
 fig, ax = plt.subplots()
@@ -31,15 +34,16 @@ plt.subplots_adjust(bottom=0.3)
 
 def update_plot():
     """Update the plot with the new heart rate data from the selected CSV file"""
-    global current_day, data_hours
-    data_hours = glob.glob(f"{name}/{current_day}/*.csv")
+    global current_day, data_hours, current_day, name
+    data_hours = glob.glob(f"{name}/{current_day}/*")
+    #print(data_hours)
 
     ax.clear() # Reset the plot
     ax.set_title(f"{current_day} - {name}\n lesuur: {hour_index+1}") # Adjust the title for the correct person and day
 
     # Get all data for the hour that is selected, and convert all the heart rate values to floats
     df = pd.read_csv(data_hours[hour_index])
-    heart_beat = list(map(float, df["Heartbeat"][2:]))
+    heart_beat = list(map(float, df["Hartslag"][2:]))
 
     ax.plot(heart_beat, color='red', linewidth='0.75') # Plot the heart data
 
@@ -61,7 +65,7 @@ def next_day(event):
     current_day = os.path.basename(days[day_index])
 
     # Update the available hours, which are CSV files, for the new day
-    data_hours = glob.glob(f"{name}/{current_day}/*.csv")
+    data_hours = glob.glob(f"{name}/{current_day}/*")
     hour_index = 0
 
     update_plot() # Update the plot
@@ -93,7 +97,7 @@ def next_person(event):
     current_day = os.path.basename(days[day_index])
 
     # Get the available hours for the new day
-    data_hours = glob.glob(f"{name}/{current_day}/*.csv")
+    data_hours = glob.glob(f"{name}/{current_day}/*")
 
     update_plot() # Update the plot
 
