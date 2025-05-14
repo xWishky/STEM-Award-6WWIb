@@ -78,8 +78,5 @@ def process_all_files(folder_path):
             except Exception as e:
                 print(f"Error bij verwerking van {file_name}: {e}")
 
-# main "loop"
 if __name__ == "__main__":
-    folder_path = "./data"  # FOLDER MET DATA! NIET AANPASSEN!
-    process_all_files(folder_path)
-    print("Bestanden verwerkt")
+    folder_path = "./data"
